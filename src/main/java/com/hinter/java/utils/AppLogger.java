@@ -1,7 +1,5 @@
 package com.hinter.java.utils;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 import java.io.IOException;
 import java.util.logging.*;
 
@@ -34,9 +32,9 @@ public final class AppLogger {
         return logger;
     }//GetInstance
 
-    public static Logger AddLoggerFileHandler(Logger logger, String fileName) throws IOException, InvalidArgumentException {
+    public static Logger AddLoggerFileHandler(Logger logger, String fileName) throws IOException {
         if (Helpers.isStringEmptyOrNull(fileName)) {
-            throw new InvalidArgumentException(new String[] { "Invalid file name" });
+            throw new IOException("Invalid file name");
         }
         FileHandler logFileHandler = new FileHandler(fileName, true);
         logFileHandler.setFormatter(new MyFormatter());
@@ -58,8 +56,6 @@ public final class AppLogger {
             return true;
         } catch (IOException ioe) {
             System.out.println("Add file logging handler IOException: " + ioe.getMessage());
-        } catch (InvalidArgumentException iae) {
-            System.out.println("Add file logging handler InvalidArgumentException: " + iae.getMessage());
         } catch (Exception e) {
             System.out.println("Add file logging handler Exception: " + e.getMessage());
         }
