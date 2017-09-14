@@ -13,7 +13,6 @@ public final class MessageProcessorStructure {
     private String _className;
     private String _unprocessedPath;
     private String _repositoryPath;
-    private String _logFile;
     private HashMap<String, String> _dbConfig;
 
     public String getTag() { return _tag; }
@@ -21,16 +20,14 @@ public final class MessageProcessorStructure {
     public String getClassName() { return _className; }
     public String getUnprocessedPath() { return _unprocessedPath; }
     public String getRepositoryPath() { return _repositoryPath; }
-    public String getLogFile() { return _logFile; }
     public HashMap<String, String> getDbConfig() { return _dbConfig; }
 
-    public MessageProcessorStructure(String tag, String type, String className, String unprocessedPath, String repositoryPath, String logFile, HashMap<String, String> dbConfig) {
+    public MessageProcessorStructure(String tag, String type, String className, String unprocessedPath, String repositoryPath, HashMap<String, String> dbConfig) {
         _tag = tag;
         _type = type;
         _className = className;
         _unprocessedPath = unprocessedPath;
         _repositoryPath = repositoryPath;
-        _logFile = logFile;
         _dbConfig = dbConfig;
     }//MessageProcessorStructure
 
@@ -42,7 +39,6 @@ public final class MessageProcessorStructure {
         sb.append("Class").append(": ").append((_className==null ? "[NULL]" : _className)).append("\n");
         sb.append("UnprocessedPath").append(": ").append((_unprocessedPath==null ? "[NULL]" : _unprocessedPath)).append("\n");
         sb.append("RepositoryPath").append(": ").append((_repositoryPath==null ? "[NULL]" : _repositoryPath)).append("\n");
-        sb.append("LogFile").append(": ").append((_logFile==null ? "[NULL]" : _logFile)).append("\n");
         if (_dbConfig==null) {
             sb.append("-DBConfig").append(": ").append("[NULL]").append("\n");
         } else {
