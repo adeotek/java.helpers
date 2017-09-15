@@ -1,6 +1,8 @@
 package com.hinter.java.utils;
 
 import com.sun.jndi.toolkit.url.Uri;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -9,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public final class Helpers {
+    private static final Logger appLogger = LogManager.getLogger(Helpers.class);
+
     public static boolean isStringEmptyOrNull(String input, boolean trimInput) {
         if(input == null) {
             return true;
@@ -327,4 +331,28 @@ public final class Helpers {
         // and then we can return your byte array.
         return byteBuffer.toByteArray();
     }//readBytes
+
+    public static boolean writeToFile(String message, String fileName) {
+        appLogger.debug("Triggered: -");
+        if (Helpers.isStringEmptyOrNull(fileName)) {
+            appLogger.error("Error: invalid file name");
+            return false;
+        }
+        boolean success;
+        try {
+            File file = new File(fileName);
+            FileWriter writer = new FileWriter(file);
+            writer.write(message);
+            writer.flush();
+            writer.close();
+            success = true;
+        } catch (IOException ioe) {
+            appLogger.error("IOException: " + ioe.getMessage());
+            success = false;
+        } catch (Exception e) {
+            appLogger.error("Exception: " + e.getMessage());
+            success = false;
+        }
+        return success;
+    }//writeToFile
 }//Helpers
