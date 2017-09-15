@@ -7,13 +7,6 @@ public abstract class AbstractMessageProcessor {
 
     public AbstractMessageProcessor() {}
 
-//    public AbstractMessageProcessor(MessageProcessorStructure processor) throws Exception {
-//        if (processor==null) {
-//            throw new Exception("Invalid MessageProcessorStructure instance");
-//        }
-//        _processor = processor;
-//    }//AbstractMessageProcessor
-
     public void SetMessageProcessorStructure(MessageProcessorStructure processor) throws Exception {
         if (processor==null) {
             throw new Exception("Invalid MessageProcessorStructure instance");

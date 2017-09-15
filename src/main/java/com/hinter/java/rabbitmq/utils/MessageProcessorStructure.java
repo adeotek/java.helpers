@@ -55,14 +55,13 @@ public final class MessageProcessorStructure {
             throw new Exception("Invalid class name");
         }
         try {
-            Class<?> processorClass =  Class.forName(this.getClassName());
-            Constructor<?> constructor = processorClass.getConstructor(MessageProcessorStructure.class);
-            AbstractMessageProcessor processorInstance = (AbstractMessageProcessor) constructor.newInstance(this);
+            AbstractMessageProcessor processorInstance = (AbstractMessageProcessor) Class.forName(this.getClassName()).newInstance();
+            processorInstance.SetMessageProcessorStructure(this);
             return processorInstance;
         } catch (ClassNotFoundException cnfe) {
-            throw new Exception(cnfe.getMessage(), cnfe);
+            throw new Exception("ClassNotFoundException: " + cnfe.getMessage(), cnfe);
         } catch (NoSuchMethodException nsme) {
-            throw new Exception(nsme.getMessage(), nsme);
+            throw new Exception("NoSuchMethodException: " + nsme.getMessage(), nsme);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException inse) {
             throw new Exception(inse.getMessage(), inse);
         }
