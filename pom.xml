@@ -6,7 +6,7 @@
 
     <groupId>com.hinter.java.utils</groupId>
     <artifactId>helpers</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7</version>
     <name>Hinter Helpers utils</name>
     <url>http://www.hinter.ro</url>
     <packaging>jar</packaging>
