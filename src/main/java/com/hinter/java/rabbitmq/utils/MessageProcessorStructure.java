@@ -50,14 +50,14 @@ public final class MessageProcessorStructure {
         return sb.toString();
     }//toString
 
-    public static AbstractMessageProcessor getProcessorInstance(MessageProcessorStructure processor) throws Exception {
-        if (processor==null || Helpers.isStringEmptyOrNull(processor.getClassName())) {
-            return null;
+    public AbstractMessageProcessor getProcessorInstance() throws Exception {
+        if (Helpers.isStringEmptyOrNull(this.getClassName())) {
+            throw new Exception("Invalid class name");
         }
         try {
-            Class<?> processorClass =  Class.forName(processor.getClassName());
+            Class<?> processorClass =  Class.forName(this.getClassName());
             Constructor<?> constructor = processorClass.getConstructor(MessageProcessorStructure.class);
-            AbstractMessageProcessor processorInstance = (AbstractMessageProcessor) constructor.newInstance(processor);
+            AbstractMessageProcessor processorInstance = (AbstractMessageProcessor) constructor.newInstance(this);
             return processorInstance;
         } catch (ClassNotFoundException cnfe) {
             throw new Exception(cnfe.getMessage(), cnfe);
