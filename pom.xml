@@ -6,7 +6,7 @@
 
     <groupId>com.hinter.java.utils</groupId>
     <artifactId>helpers</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <name>Hinter Helpers utils</name>
     <url>http://www.hinter.ro</url>
     <packaging>jar</packaging>
@@ -77,6 +77,26 @@
                                     <exclude>org.apache.maven:lib:tests</exclude>
                                 </excludes>
                             </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/libs</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
                         </configuration>
                     </execution>
                 </executions>
