@@ -6,15 +6,16 @@
 
     <groupId>com.hinter.java.utils</groupId>
     <artifactId>helpers</artifactId>
-    <version>1.0.4</version>
-    <packaging>jar</packaging>
-
+    <version>1.0.5</version>
     <name>Hinter Helpers utils</name>
     <url>http://www.hinter.ro</url>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+    <inceptionYear>2017</inceptionYear>
 
     <dependencies>
         <dependency>
@@ -67,6 +68,8 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>full</shadedClassifierName>
                             <artifactSet>
                                 <excludes>
                                     <exclude>classworlds:classworlds</exclude>
