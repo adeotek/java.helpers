@@ -8,6 +8,7 @@ import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 
 public final class Helpers {
@@ -355,4 +356,27 @@ public final class Helpers {
         }
         return success;
     }//writeToFile
+
+    public static String getBase64EncodedFileContent(File file) {
+        if(file==null || !file.exists() || file.isDirectory()) {
+            return null;
+        }
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            byte[] b = readBytes(fis);
+            String encData = new String(Base64.getEncoder().encode(b));
+            return encData;
+        } catch(FileNotFoundException e) {
+            return null;
+        } catch(Exception ee) {
+            return null;
+        }
+    }//getBase64EncodedFileContent
+
+    public static String getBase64EncodedFileContent(String file) {
+        if(isStringEmptyOrNull(file)) {
+            return null;
+        }
+        return getBase64EncodedFileContent(new File(file));
+    }//getBase64EncodedFileContent
 }//Helpers
