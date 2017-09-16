@@ -40,5 +40,9 @@ public abstract class AbstractMessageProcessor {
         return Helpers.writeToFile(json.toString(), getMessageFileName(null, prefix, ".json"));
     }//logUnprocessedMessage
 
+    protected boolean logUnprocessedMessage(String message, String prefix) throws Exception {
+        return Helpers.writeToFile(message, getMessageFileName(null, prefix, ".msg"));
+    }//logUnprocessedMessage
+
     public abstract boolean processMessage(JsonObject json);
 }//AbstractMessageProcessor
