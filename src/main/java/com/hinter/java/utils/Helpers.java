@@ -5,6 +5,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
+import java.net.ConnectException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -379,4 +382,21 @@ public final class Helpers {
         }
         return getBase64EncodedFileContent(new File(file));
     }//getBase64EncodedFileContent
+
+    public static boolean isPortOpen(String hostname, int port, int timeout) {
+        try {
+            Socket socket = new Socket();
+            socket.connect(new InetSocketAddress(hostname, port), timeout);
+            socket.close();
+            return true;
+        } catch(ConnectException ce) {
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }//isPortOpen
+
+    public static boolean isPortOpen(String hostname, int port) {
+        return isPortOpen(hostname, port, 1000);
+    }//isPortOpen
 }//Helpers
