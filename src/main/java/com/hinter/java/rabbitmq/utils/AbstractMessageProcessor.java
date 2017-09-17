@@ -4,9 +4,11 @@ import com.google.gson.JsonObject;
 import com.hinter.java.utils.Helpers;
 
 import java.util.Date;
+import java.util.HashMap;
 
 public abstract class AbstractMessageProcessor {
-    protected MessageProcessorStructure _processor;
+    protected MessageProcessorStructure processor;
+    protected HashMap<String, String> appConfig = null;
 
     public AbstractMessageProcessor() {}
 
@@ -14,8 +16,12 @@ public abstract class AbstractMessageProcessor {
         if (processor==null) {
             throw new Exception("Invalid MessageProcessorStructure instance");
         }
-        _processor = processor;
+        this.processor = processor;
     }//SetMessageProcessorStructure
+
+    public void SetAppConfig(HashMap<String, String> appConfig) {
+        this.appConfig = appConfig;
+    }//SetAppConfig
 
     public static String GetMessageFile(String path, String subDirectory, String prefix, String extension) throws Exception {
         if (Helpers.isStringEmptyOrNull(path)) {
@@ -30,10 +36,10 @@ public abstract class AbstractMessageProcessor {
     }//getMessageFileName
 
     protected String getMessageFileName(String subDirectory, String prefix, String extension) throws Exception {
-        if (_processor==null || Helpers.isStringEmptyOrNull(_processor.getUnprocessedPath())) {
+        if (processor ==null || Helpers.isStringEmptyOrNull(processor.getUnprocessedPath())) {
             throw new Exception("Invalid unprocessed path");
         }
-        return GetMessageFile(_processor.getUnprocessedPath(), subDirectory, prefix, extension);
+        return GetMessageFile(processor.getUnprocessedPath(), subDirectory, prefix, extension);
     }//getMessageFileName
 
     protected boolean logUnprocessedMessage(JsonObject json, String prefix) throws Exception {
