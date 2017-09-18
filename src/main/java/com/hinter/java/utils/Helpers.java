@@ -8,6 +8,8 @@ import java.io.*;
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -399,4 +401,36 @@ public final class Helpers {
     public static boolean isPortOpen(String hostname, int port) {
         return isPortOpen(hostname, port, 1000);
     }//isPortOpen
+
+    public static String hash(String salt, String algorithm, boolean noTime) throws NoSuchAlgorithmException {
+        MessageDigest mDigest = MessageDigest.getInstance(algorithm);
+        String input = "";
+        if (!isStringEmptyOrNull(salt)) {
+            input += salt;
+        }
+        if (!noTime) {
+            input += Long.valueOf(System.currentTimeMillis()).toString();
+        }
+        if (isStringEmptyOrNull(input)) {
+            return null;
+        }
+        byte[] result = mDigest.digest(input.getBytes());
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < result.length; i++) {
+            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+        }
+        return sb.toString();
+    }//hash
+
+    public static String uidHash(String salt) throws NoSuchAlgorithmException {
+        return hash(salt, "SHA1", false);
+    }//uidHash
+
+    public static String sha1(String input) throws NoSuchAlgorithmException {
+        return hash(input, "SHA1", true);
+    }//sha1
+
+    public static String md5(String input) throws NoSuchAlgorithmException {
+        return hash(input, "MD5", true);
+    }//md5
 }//Helpers
