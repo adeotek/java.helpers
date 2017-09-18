@@ -8,6 +8,7 @@ import java.io.*;
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -337,6 +338,40 @@ public final class Helpers {
         // and then we can return your byte array.
         return byteBuffer.toByteArray();
     }//readBytes
+
+    public static String inputStreamToString(InputStream inputStream) {
+        // this dynamically extends to take the bytes you read
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        // this is storage overwritten on each iteration with bytes
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+        // we need to know how may bytes were read to write them to the byteBuffer
+        int len;
+        try {
+            while ((len = inputStream.read(buffer)) != -1) {
+                byteBuffer.write(buffer, 0, len);
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        // StandardCharsets.UTF_8.name() > JDK 7
+        try {
+            return byteBuffer.toString(StandardCharsets.UTF_8.name());
+        } catch(UnsupportedEncodingException use) {
+            return byteBuffer.toString();
+        }
+    }//inputStreamToString
+
+    public static InputStream stringToInputStream(String input) {
+
+        byte[] content;
+        try {
+            content = input.getBytes(StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException use) {
+            content = input.getBytes();
+        }
+        return new ByteArrayInputStream(content);
+    }//stringToInputStream
 
     public static boolean writeToFile(String message, String fileName) {
         appLogger.debug("Triggered: -");
