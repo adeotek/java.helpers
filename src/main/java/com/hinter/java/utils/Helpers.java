@@ -402,35 +402,41 @@ public final class Helpers {
         return isPortOpen(hostname, port, 1000);
     }//isPortOpen
 
-    public static String hash(String salt, String algorithm, boolean noTime) throws NoSuchAlgorithmException {
-        MessageDigest mDigest = MessageDigest.getInstance(algorithm);
-        String input = "";
-        if (!isStringEmptyOrNull(salt)) {
-            input += salt;
-        }
-        if (!noTime) {
-            input += Long.valueOf(System.currentTimeMillis()).toString();
-        }
-        if (isStringEmptyOrNull(input)) {
-            return null;
-        }
-        byte[] result = mDigest.digest(input.getBytes());
+    public static String hash(String salt, String algorithm, boolean noTime) throws Exception {
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < result.length; i++) {
-            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+        try {
+            MessageDigest mDigest = MessageDigest.getInstance(algorithm);
+            String input = "";
+            if (!isStringEmptyOrNull(salt)) {
+                input += salt;
+            }
+            if (!noTime) {
+                input += Long.valueOf(System.currentTimeMillis()).toString();
+            }
+            if (isStringEmptyOrNull(input)) {
+                return null;
+            }
+            byte[] result = mDigest.digest(input.getBytes("UTF-8"));
+            for (int i = 0; i < result.length; i++) {
+                sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+            }
+        } catch (NoSuchAlgorithmException nsae) {
+            throw new Exception("NoSuchAlgorithmException: " + nsae.getMessage());
+        } catch (UnsupportedEncodingException uee) {
+            throw new Exception("UnsupportedEncodingException: " + uee.getMessage());
         }
         return sb.toString();
     }//hash
 
-    public static String uidHash(String salt) throws NoSuchAlgorithmException {
+    public static String uidHash(String salt) throws Exception {
         return hash(salt, "SHA1", false);
     }//uidHash
 
-    public static String sha1(String input) throws NoSuchAlgorithmException {
+    public static String sha1(String input) throws Exception {
         return hash(input, "SHA1", true);
     }//sha1
 
-    public static String md5(String input) throws NoSuchAlgorithmException {
+    public static String md5(String input) throws Exception {
         return hash(input, "MD5", true);
     }//md5
 }//Helpers
