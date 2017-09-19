@@ -363,7 +363,6 @@ public final class Helpers {
     }//inputStreamToString
 
     public static InputStream stringToInputStream(String input) {
-
         byte[] content;
         try {
             content = input.getBytes(StandardCharsets.UTF_8.name());
@@ -374,7 +373,6 @@ public final class Helpers {
     }//stringToInputStream
 
     public static boolean writeToFile(String message, String fileName) {
-        appLogger.debug("Triggered: -");
         if (Helpers.isStringEmptyOrNull(fileName)) {
             appLogger.error("Error: invalid file name");
             return false;
@@ -386,6 +384,28 @@ public final class Helpers {
             writer.write(message);
             writer.flush();
             writer.close();
+            success = true;
+        } catch (IOException ioe) {
+            appLogger.error("IOException: " + ioe.getMessage());
+            success = false;
+        } catch (Exception e) {
+            appLogger.error("Exception: " + e.getMessage());
+            success = false;
+        }
+        return success;
+    }//writeToFile
+
+    public static boolean writeToFile(byte[] data, String fileName) {
+        if (Helpers.isStringEmptyOrNull(fileName)) {
+            appLogger.error("Error: invalid file name");
+            return false;
+        }
+        boolean success;
+        try {
+            File file = new File(fileName);
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(data);
+            fos.close();
             success = true;
         } catch (IOException ioe) {
             appLogger.error("IOException: " + ioe.getMessage());
