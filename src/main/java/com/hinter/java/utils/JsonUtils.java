@@ -4,8 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.util.Iterator;
-
 public final class JsonUtils {
 
     public static JsonElement getJsonElement(JsonObject jsonObject, String memberName) {
@@ -63,6 +61,12 @@ public final class JsonUtils {
         return getJsonElementAsString(jsonObject, memberName, null);
     }//getJsonElementAsString
 
+    public static JsonElement getJsonArrayElement(JsonArray jsonArray, int index) {
+        if (jsonArray==null || jsonArray.size()==0) {
+            return null;
+        }
+        return jsonArray.get(index);
+    }//getJsonArrayElement
 
     public static boolean searchInJsonArray(JsonArray json, String key, String value) {
         if(json==null || json.size()==0 || Helpers.isStringEmptyOrNull(key)) { return false; }
